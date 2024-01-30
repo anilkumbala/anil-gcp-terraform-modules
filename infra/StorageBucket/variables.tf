@@ -1,28 +1,34 @@
 variable "name" {
   description = "The name of the bucket."
   type        = string
+  default     = null
 }
 
 variable "project_id" {
   description = "The ID of the project to create the bucket in."
   type        = string
+  default     = null
 }
 variable "env" {
   description = "The ID of the project to create the bucket in."
   type        = string
+  default     = null
 }
 variable "bucket" {
   description = "The ID of the project to create the bucket in."
   type        = string
+  default     = null
 }
 variable "prefix" {
   description = "The ID of the project to create the bucket in."
   type        = string
+  default     = null
 }
 
 variable "location" {
   description = "The location of the bucket."
   type        = string
+  default     = null
 }
 
 variable "storage_class" {
