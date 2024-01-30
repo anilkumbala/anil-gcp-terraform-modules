@@ -23,7 +23,7 @@ pipeline {
                             sh 'terraform --version'
                             sh 'terraform init -backend-config=./environment/dev/backend_config.tfvars'
                             sh 'terraform refresh -var-file=./environment/dev/variables.tfvars -no-color'
-                            sh 'terraform plan -var-file=./dev/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan'
+                            env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./environment/dev/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
                             //sh 'terraform apply -var-file=./environment/dev/variables.tfvars -no-color -auto-approve'
                         }
                     } else if (env.BRANCH_NAME == 'test') {
