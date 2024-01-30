@@ -27,7 +27,7 @@ pipeline {
                             sh 'terraform apply -var-file=./environment/dev/variables.tfvars -no-color -auto-approve'
                         }
                     } else if (env.BRANCH_NAME == 'test') {
-                        dir("ops/ArtifactRegistry/uat") {
+                        dir("infra/StorageBucket") {
                             sh 'terraform --version'
                             sh 'terraform init -backend-config=./environment/uat/backend_config.tfvars'
                             sh 'terraform refresh -var-file=./environment/uat/variables.tfvars -no-color'
@@ -49,11 +49,11 @@ pipeline {
                     sh 'gcloud config set project excellent-guide-410011'
 
                     if (env.BRANCH_NAME == 'main') {
-                        dir("ops/ArtifactRegistry/prod") {
+                        dir("infra/StorageBucket") {
                             sh 'terraform --version'
                             sh 'terraform init -backend-config=./environment/prod/backend_config.tfvars'
                             sh 'terraform refresh -var-file=./environment/prod/variables.tfvars -no-color'
-                            env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./prod/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
+                            env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./environment/prod/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
                             sh 'terraform apply -var-file=./environment/prod/variables.tfvars -no-color -auto-approve'
                         }
                     }
