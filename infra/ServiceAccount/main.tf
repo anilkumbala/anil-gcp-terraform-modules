@@ -1,12 +1,3 @@
-module "object_storage" {
-  source = "./modules/object_storage"
-
-  count = local.enable_object_storage_module ? 1 : 0
-
-  namespace       = var.namespace
-  labels          = var.labels
-  service_account = module.service_accounts.service_account
-}
 
 module "service_accounts" {
   source = "./modules/service_accounts"
