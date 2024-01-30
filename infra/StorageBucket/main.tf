@@ -1,5 +1,5 @@
 module "object_storage" {
-  source = "./modules/object_storage"
+  source = "../../modules/object_storage"
 
   name       = "${var.env}-${var.project_id}-bucket"
   project_id = var.project_id
