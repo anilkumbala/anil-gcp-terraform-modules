@@ -23,10 +23,6 @@ module "object_storage" {
     }
   }]
 
-  custom_placement_config = {
-    data_locations : ["us-west1", "us-west2"]
-  }
-
   iam_members = [{
     role   = "roles/storage.objectViewer"
     member = "group:test-gcp-ops@test.blueprints.joonix.net"
