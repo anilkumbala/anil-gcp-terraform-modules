@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = var.bucket # GCS bucket name to store terraform tfstate
+    prefix = var.prefix              # Prefix name should be unique for each Terraform project having same remote state bucket.
+  }
+}
+
 module "object_storage" {
   source = "../../modules/object_storage"
 

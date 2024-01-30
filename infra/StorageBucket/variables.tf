@@ -11,6 +11,14 @@ variable "env" {
   description = "The ID of the project to create the bucket in."
   type        = string
 }
+variable "bucket" {
+  description = "The ID of the project to create the bucket in."
+  type        = string
+}
+variable "prefix" {
+  description = "The ID of the project to create the bucket in."
+  type        = string
+}
 
 variable "location" {
   description = "The location of the bucket."
