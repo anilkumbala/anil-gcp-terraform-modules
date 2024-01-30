@@ -24,7 +24,7 @@ module "object_storage" {
   }]
 
   custom_placement_config = {
-    data_locations : ["US-EAST4", "US-WEST1"]
+    data_locations : ["us-west1", "us-west2"]
   }
 
   iam_members = [{
