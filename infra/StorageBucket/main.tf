@@ -1,26 +1,29 @@
 module "object_storage" {
   source = "./modules/object_storage"
 
-  count =  1 
+  name       = "${var.env}-${var.project_id}-bucket"
+  project_id = var.project_id
+  location   = var.location
 
-  namespace       = var.namespace
-  labels          = var.labels
-  service_account = module.service_accounts.service_account
-}
+  lifecycle_rules = [{
+    action = {
+      type = "Delete"
+    }
+    condition = {
+      age            = 365
+      with_state     = "ANY"
+      matches_prefix = var.project_id
+    }
+  }]
 
-module "service_accounts" {
-  source = "./modules/service_accounts"
+  custom_placement_config = {
+    data_locations : ["US-EAST4", "US-WEST1"]
+  }
 
-  ca_certificate_secret_id    = var.ca_certificate_secret_id
-  enable_airgap               = local.enable_airgap
-  is_replicated_deployment    = var.is_replicated_deployment
-  tfe_license_secret_id       = var.tfe_license_secret_id
-  namespace                   = var.namespace
-  project                     = var.project
-  ssl_certificate_secret      = var.ssl_certificate_secret
-  ssl_private_key_secret      = var.ssl_private_key_secret
-  existing_service_account_id = var.existing_service_account_id
-  depends_on = [
-    module.project_factory_project_services
-  ]
+  iam_members = [{
+    role   = "roles/storage.objectViewer"
+    member = "group:test-gcp-ops@test.blueprints.joonix.net"
+  }]
+
+  autoclass = true
 }

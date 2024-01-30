@@ -1,13 +1,14 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 output "bucket" {
-  value = google_storage_bucket.tfe.name
-
-  description = "The name of the storage bucket."
+  description = "The created storage bucket"
+  value       = google_storage_bucket.bucket
 }
-output "project" {
-  value = google_storage_bucket.tfe.project
 
-  description = "The ID of the project in which the storage bucket resides."
+output "name" {
+  description = "Bucket name."
+  value       = google_storage_bucket.bucket.name
+}
+
+output "url" {
+  description = "Bucket URL."
+  value       = google_storage_bucket.bucket.url
 }
