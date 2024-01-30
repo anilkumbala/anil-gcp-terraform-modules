@@ -24,8 +24,7 @@ pipeline {
                             sh 'terraform init -backend-config=./environment/dev/backend_config.tfvars'
                             sh 'terraform refresh -var-file=./environment/dev/variables.tfvars -no-color'
                             env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./environment/dev/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
-                            //sh 'terraform apply -var-file=./environment/dev/variables.tfvars -no-color -auto-approve'
-                            TF_LOG=DEBUG terraform apply -var-file=./environment/dev/variables.tfvars -no-color -auto-approve
+                            sh 'terraform apply -var-file=./environment/dev/variables.tfvars -no-color -auto-approve'
                         }
                     } else if (env.BRANCH_NAME == 'test') {
                         dir("ops/ArtifactRegistry/uat") {
