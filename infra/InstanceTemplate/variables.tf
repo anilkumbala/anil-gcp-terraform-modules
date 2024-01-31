@@ -6,7 +6,7 @@ variable "project_id" {
 variable "region" {
   description = "The GCP region to create and test resources in"
   type        = string
-  default     = "us-central1"
+  default     = ""
 }
 
 variable "subnetwork" {
@@ -14,7 +14,7 @@ variable "subnetwork" {
   default     = ""
 }
 variable "env" {
-  description = "The name of the subnetwork create this instance in."
+  description = "The name of the env create this instance in."
   default     = ""
 }
 
