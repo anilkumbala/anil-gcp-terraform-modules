@@ -1,6 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 variable "ca_certificate_secret_id" {
   description = "The Secret Manager secret which comprises the Base64 encoded PEM certificate file for a Certificate Authority. The Terraform provider calls this value the secret_id and the GCP UI calls it the name."
   type        = string
