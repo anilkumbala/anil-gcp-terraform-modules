@@ -30,11 +30,13 @@ variable "service_account" {
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"
+  default     = null
 }
 
 variable "labels" {
   type        = map(string)
   description = "Labels, provided as a map"
+  default     = null
 }
 
 variable "enable_nested_virtualization" {
