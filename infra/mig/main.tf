@@ -27,7 +27,7 @@ provider "google-beta" {
 module "instance_template" {
   source  = "../../modules/instance_template"
   
-
+  name_prefix        = "${var.env}-mig"
   project_id         = var.project_id
   subnetwork         = var.subnetwork
   service_account    = var.service_account
@@ -35,12 +35,12 @@ module "instance_template" {
 }
 
 module "mig" {
-  source  = "../../modules/imanaged_instance_group"
+  source  = "../../modules/managed_instance_group"
   
 
   project_id        = var.project_id
   region            = var.region
   target_size       = var.target_size
-  hostname          = "mig-simple"
+  hostname          = "${var.env}-mig-simple"
   instance_template = module.instance_template.self_link
 }
