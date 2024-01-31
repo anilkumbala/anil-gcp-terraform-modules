@@ -43,8 +43,6 @@ module "instance_template" {
 
 module "mig" {
   source  = "../../modules/managed_instance_group"
-  
-
   project_id        = var.project_id
   region            = var.region
   target_size       = var.target_size
