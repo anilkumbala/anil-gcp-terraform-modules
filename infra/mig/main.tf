@@ -50,4 +50,5 @@ module "mig" {
   target_size       = var.target_size
   hostname          = "${var.env}-mig-simple"
   instance_template = module.instance_template.self_link
+  service_account    = var.service_account
 }

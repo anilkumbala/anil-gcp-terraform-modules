@@ -52,6 +52,13 @@ resource "google_compute_region_instance_group_manager" "mig" {
       delete_rule = lookup(stateful_disk.value, "delete_rule", null)
     }
   }
+  dynamic "service_account" {
+    for_each = var.service_account == null ? [] : [var.service_account]
+    content {
+      email  = lookup(service_account.value, "email", null)
+      scopes = lookup(service_account.value, "scopes", null)
+    }
+  }
 
   dynamic "stateful_internal_ip" {
     for_each = [for static_ip in var.stateful_ips : static_ip if static_ip["is_external"] == false]
