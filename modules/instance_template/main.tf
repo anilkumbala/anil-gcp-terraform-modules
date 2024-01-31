@@ -18,7 +18,7 @@ locals {
     },
   ]
 
-  all_disks = concat(local.boot_disk, var.additional_disks)
+  all_disks = concat(local.boot_disk)
 
   # NOTE: Even if all the shielded_instance_config or confidential_instance_config
   # values are false, if the config block exists and an unsupported image is chosen,
