@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ terraform {
+  backend "gcs" {
+    bucket = var.bucket # GCS bucket name to store terraform tfstate
+    prefix = var.prefix              # Prefix name should be unique for each Terraform project having same remote state bucket.
+  }
+}
 
 provider "google" {
 
@@ -32,6 +38,7 @@ module "instance_template" {
   subnetwork         = var.subnetwork
   service_account    = var.service_account
   subnetwork_project = var.project_id
+  machine_type            = var.machine_type
 }
 
 module "mig" {
