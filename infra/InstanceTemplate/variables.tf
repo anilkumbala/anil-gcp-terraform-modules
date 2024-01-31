@@ -50,3 +50,9 @@ variable "threads_per_core" {
   description = "The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1."
   default     = null
 }
+
+variable "machine_type" {
+  description = "Machine type to create, e.g. n1-standard-1"
+  type        = string
+  default     = ""
+}

@@ -6,3 +6,4 @@ service_account = {
   scopes = ["scope1"]
 }
 subnetwork = "default"
+machine_type = "e2-medium"

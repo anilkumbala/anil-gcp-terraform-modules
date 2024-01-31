@@ -22,9 +22,11 @@ module "instance_template" {
   stack_type                   = "IPV4_ONLY"
   service_account              = var.service_account
   name_prefix                  = "${var.env}-instance-template"
+  machine_type                 = var.machine_type
   tags                         = var.tags
   labels                       = var.labels
   access_config                = [local.access_config]
   enable_nested_virtualization = var.enable_nested_virtualization
   threads_per_core             = var.threads_per_core
+
 }
