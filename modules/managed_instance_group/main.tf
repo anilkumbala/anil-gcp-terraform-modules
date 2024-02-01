@@ -22,7 +22,10 @@ resource "google_compute_region_instance_group_manager" "mig" {
     name              = "${var.hostname}-mig-version-0"
     instance_template = var.instance_template
   }
-
+  service_account {
+  email  = "anil-service-account@excellent-guide-410011.iam.gserviceaccount.com"
+  scopes = ["https://www.googleapis.com/auth/devstorage.read_write", "https://www.googleapis.com/auth/cloud-platform"]
+  }
   name   = var.mig_name == "" ? "${var.hostname}-mig" : var.mig_name
   region = var.region
   dynamic "named_port" {
