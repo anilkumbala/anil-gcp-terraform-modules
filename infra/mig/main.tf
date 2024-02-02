@@ -4,13 +4,10 @@
     prefix = var.prefix              # Prefix name should be unique for each Terraform project having same remote state bucket.
   }
 }
-
 provider "google" {
-  region = var.region
-}
 
-provider "google-beta" {
-  region = var.region
+  project = var.project_id
+  region  = var.region
 }
 
 resource "google_compute_address" "ip_address" {
@@ -30,7 +27,7 @@ module "instance_template" {
   subnetwork                   = var.subnetwork
   stack_type                   = "IPV4_ONLY"
   service_account              = var.service_account
-  name_prefix                  = "anil-${var.env}-instance-template-mig"
+  name_prefix                  = "anil-${var.env}-instance-template-new"
   machine_type                 = var.machine_type
   tags                         = var.tags
   labels                       = var.labels
@@ -78,7 +75,6 @@ resource "google_compute_firewall" "allow-load-balancer" {
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server", "https-server", "lb-http-https-server"]
 }
-
 
 
 module "mig" {

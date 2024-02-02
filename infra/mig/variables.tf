@@ -14,9 +14,9 @@ variable "region" {
 }
 
 variable "subnetwork" {
-  description = "The subnetwork to host the compute instances in"
+  description = "The name of the subnetwork create this instance in."
+  default     = ""
 }
-
 variable "target_size" {
   description = "The target number of running instances for this managed instance group. This value should always be explicitly set unless this resource is attached to an autoscaler, in which case it should never be set."
   type        = number
