@@ -13,16 +13,28 @@ provider "google-beta" {
   region = var.region
 }
 
+resource "google_compute_address" "ip_address" {
+  name = "${var.env}-external-ip-2"
+}
+
+locals {
+  access_config = {
+    nat_ip       = google_compute_address.ip_address.address
+    network_tier = "PREMIUM"
+  }
+}
+
 module "instance_template" {
   source  = "../../modules/instance_template"
   project_id                   = var.project_id
   subnetwork                   = var.subnetwork
   stack_type                   = "IPV4_ONLY"
   service_account              = var.service_account
-  name_prefix                  = "anil-${var.env}-instance-template-new"
+  name_prefix                  = "anil-${var.env}-instance-template-mig"
   machine_type                 = var.machine_type
   tags                         = var.tags
   labels                       = var.labels
+  access_config                = [local.access_config]
   enable_nested_virtualization = var.enable_nested_virtualization
   threads_per_core             = var.threads_per_core
 
