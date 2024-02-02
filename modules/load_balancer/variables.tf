@@ -1,41 +1,58 @@
-variable "namespace" {
-  description = "A prefix which will be applied to all resource names."
+variable "project_id" {
+  description = "Google Cloud Project ID"
   type        = string
 }
 
-variable "fqdn" {
-  description = "The fully qualified domain name which will be assigned to the DNS record."
+variable "region" {
+  description = "GCP region for resources"
   type        = string
+  default     = "us-central1"  # Change this to your desired GCP region
 }
 
-variable "instance_group" {
-  description = "The self link of an instance group which will serve traffic to the load balancer."
+variable "backend_service_name" {
+  description = "Name of the backend service"
   type        = string
+  default     = "example-backend-service"
 }
 
-variable "ip_address" {
-  description = "The IP address which will be assigned to the load balancer."
+variable "backend_instance_group" {
+  description = "Name of the backend instance group"
   type        = string
+  default     = "instance-group-1"  # Change this to your backend instance group
 }
 
-variable "labels" {
-  description = "Labels which will be applied to all applicable resources."
-  type        = map(string)
-}
-
-variable "ssl_certificate_name" {
-  description = <<-EOD
-  The name of an existing SSL certificate which will be used to authenticate connections to the load balancer.
-  EOD
+variable "health_check_name" {
+  description = "Name of the health check"
   type        = string
+  default     = "example-health-check"
 }
 
-variable "dns_zone_name" {
-  description = "The name of the DNS zone in which a record will be created."
+variable "health_check_path" {
+  description = "Path used for health checks"
   type        = string
+  default     = "/health"  # Change this to the path you want to use for health checks
 }
 
-variable "dns_create_record" {
-  description = "A toggle to control the creation of a DNS record for the load balancer IP address."
-  type        = bool
+variable "forwarding_rule_name" {
+  description = "Name of the forwarding rule"
+  type        = string
+  default     = "example-forwarding-rule"
+}
+
+variable "url_map_name" {
+  description = "Name of the URL map"
+  type        = string
+  default     = "example-url-map"
+}
+
+variable "target_proxy_name" {
+  description = "Name of the target HTTP proxy"
+  type        = string
+  default     = "example-target-http-proxy"
+}
+
+variable "global_forwarding_rule_name" {
+  description = "Name of the global forwarding rule"
+  type        = string
+  default     = "example-global-forwarding-rule"
 }

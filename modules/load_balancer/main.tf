@@ -1,82 +1,74 @@
-resource "google_dns_record_set" "main" {
-  count        = var.dns_create_record ? 1 : 0
-  managed_zone = var.dns_zone_name
-  # The name must end with a ".".
-  name    = var.fqdn
-  rrdatas = [var.ip_address]
-  ttl     = 300
-  type    = "A"
+provider "google" {
+  project     = var.project_id
+  region      = var.region
 }
 
-resource "google_compute_health_check" "lb" {
-  name = "${var.namespace}-tfe-public-lb"
+resource "google_compute_backend_service" "example" {
+  name        = var.backend_service_name
+  protocol    = "HTTP"
+  port_name   = "http"
+  timeout_sec = 10
+  enable_cdn  = false
 
-  check_interval_sec = 30
-  description        = "The health check of the public load balancer for TFE."
-  timeout_sec        = 4
-
-  https_health_check {
-    port         = 443
-    request_path = "/_health_check"
-  }
-
-}
-
-resource "google_compute_backend_service" "lb" {
-  health_checks = [google_compute_health_check.lb.self_link]
-  name          = "${var.namespace}-tfe-public-lb"
-
-  description           = "The backend service of the public load balancer for TFE."
-  load_balancing_scheme = "EXTERNAL"
-  port_name             = "https"
-  protocol              = "HTTPS"
-  timeout_sec           = 10
+  health_checks = [google_compute_health_check.example.name]
 
   backend {
-    group = var.instance_group
-
-    balancing_mode  = "UTILIZATION"
-    description     = "The instance group of the compute deployment for TFE."
-    capacity_scaler = 1.0
+    group = "dev-mig-simple-mig"  # Change this to your backend instance group
   }
 }
 
-resource "google_compute_url_map" "lb" {
-  default_service = google_compute_backend_service.lb.self_link
-  name            = "${var.namespace}-tfe-public-lb"
-
-  description = "The URL map of the public load balancer for TFE."
+resource "google_compute_health_check" "example" {
+  name               = var.health_check_name
+  check_interval_sec = 10
+  timeout_sec        = 5
+  http_health_check {
+    port               = 80
+    request_path       = var.health_check_path
+    check_interval_sec = 10
+    timeout_sec        = 5
+  }
 }
 
-data "google_compute_ssl_certificate" "provisioned_cert" {
-  name = var.ssl_certificate_name
-}
-
-resource "google_compute_ssl_policy" "lb" {
-  name = "${var.namespace}-tfe-public-lb"
-
-  description     = "The SSL policy of the public load balancer for TFE."
-  min_tls_version = "TLS_1_2"
-  profile         = "RESTRICTED"
-}
-
-resource "google_compute_target_https_proxy" "lb" {
-  name             = "${var.namespace}-tfe-public-lb"
-  ssl_certificates = [data.google_compute_ssl_certificate.provisioned_cert.self_link]
-  url_map          = google_compute_url_map.lb.self_link
-
-  description = "The target HTTPS proxy of the public load balancer for TFE."
-  ssl_policy  = google_compute_ssl_policy.lb.self_link
-}
-
-resource "google_compute_global_forwarding_rule" "lb" {
-  name   = "${var.namespace}-tfe-public-lb"
-  target = google_compute_target_https_proxy.lb.self_link
-
-  description           = "The global forwarding rule of the public load balancer for TFE."
-  ip_address            = var.ip_address
-  ip_protocol           = "TCP"
-  labels                = var.labels
+resource "google_compute_forwarding_rule" "example" {
+  name                  = var.forwarding_rule_name
   load_balancing_scheme = "EXTERNAL"
-  port_range            = 443
+  region                = var.region
+  ip_protocol           = "TCP"
+  port_range            = "80-80"
+
+  backend_service = google_compute_backend_service.example.self_link
+}
+
+resource "google_compute_url_map" "example" {
+  name = var.url_map_name
+
+  default_route_action {
+    cors_policy {
+      max_age_seconds = 0
+    }
+    timeout_action {
+      timeout_ms = 10000
+    }
+    url_rewrite {
+      path_prefix_rewrite = "/new-path-prefix"
+    }
+    weighted_backend_services {
+      backend_service = google_compute_backend_service.example.self_link
+      weight          = 100
+    }
+  }
+}
+
+resource "google_compute_target_http_proxy" "example" {
+  name        = var.target_proxy_name
+  url_map     = google_compute_url_map.example.self_link
+  description = "Example HTTP Proxy"
+}
+
+resource "google_compute_global_forwarding_rule" "example" {
+  name                  = var.global_forwarding_rule_name
+  ip_protocol           = "TCP"
+  port_range            = "80-80"
+  target                = google_compute_target_http_proxy.example.self_link
+  load_balancing_scheme = "EXTERNAL"
 }
