@@ -10,3 +10,4 @@ service_account = {
 }
 subnetwork = "default"
 machine_type = "e2-medium"
+tags = ["http-server", "https-server"]
