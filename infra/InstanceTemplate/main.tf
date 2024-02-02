@@ -73,5 +73,5 @@ resource "google_compute_firewall" "allow-load-balancer" {
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["http-server", "https-server"]
+  target_tags   = ["http-server", "https-server", "lb-http-https-server"]
 }
