@@ -16,5 +16,4 @@ service_account = {
     "https://www.googleapis.com/auth/monitoring.write",
     "https://www.googleapis.com/auth/devstorage.full_control"]
 }
-machine_type = "e2-medium"
 tags = ["http-server", "https-server","lb-http-https-server"]
