@@ -35,34 +35,6 @@ variable "machine_type" {
   type        = string
   default     = ""
 }
-variable "project_id" {
-  description = "The GCP project to use for integration tests"
-  type        = string
-}
-
-variable "region" {
-  description = "The GCP region to create and test resources in"
-  type        = string
-  default     = ""
-}
-
-variable "subnetwork" {
-  description = "The name of the subnetwork create this instance in."
-  default     = ""
-}
-variable "env" {
-  description = "The name of the env create this instance in."
-  default     = ""
-}
-
-variable "service_account" {
-  default = null
-  type = object({
-    email  = string
-    scopes = set(string)
-  })
-  description = "Service account to attach to the instance. See https://www.terraform.io/docs/providers/google/r/compute_instance_template#service_account."
-}
 
 variable "tags" {
   type        = list(string)
@@ -88,8 +60,3 @@ variable "threads_per_core" {
   default     = null
 }
 
-variable "machine_type" {
-  description = "Machine type to create, e.g. n1-standard-1"
-  type        = string
-  default     = ""
-}
