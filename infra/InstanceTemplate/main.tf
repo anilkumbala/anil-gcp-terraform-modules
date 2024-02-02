@@ -38,7 +38,7 @@ module "instance_template" {
 }
 
 resource "google_compute_firewall" "allow-http" {
-  name    = "${var.env}-allow-http"
+  name    = "${var.env}-allow-http-mig"
   network = "default"
 
   allow {
@@ -51,7 +51,7 @@ resource "google_compute_firewall" "allow-http" {
 }
 
 resource "google_compute_firewall" "allow-https" {
-  name    = "${var.env}-allow-https"
+  name    = "${var.env}-allow-https-mig"
   network = "default"
 
   allow {
@@ -64,7 +64,7 @@ resource "google_compute_firewall" "allow-https" {
 }
 
 resource "google_compute_firewall" "allow-load-balancer" {
-  name    = "${var.env}-allow-load-balancer"
+  name    = "${var.env}-allow-load-balancer-mig"
   network = "default"
 
   allow {
