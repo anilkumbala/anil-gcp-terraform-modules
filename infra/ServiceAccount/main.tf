@@ -1,6 +1,6 @@
 
 module "service_accounts" {
-  source = "./modules/service_accounts"
+  source = "../../modules/service_accounts"
 
   ca_certificate_secret_id    = var.ca_certificate_secret_id
   enable_airgap               = local.enable_airgap
